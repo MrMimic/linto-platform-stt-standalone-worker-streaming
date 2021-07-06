@@ -15,3 +15,6 @@ unzip linSTT_AM_fr-FR_v2.2.0.zip -d ../acoustic-model/
 cd ../
 rm -rf tmp
 cd ../
+
+# Create env file
+printf "AM_PATH=$PWD/models/acoustic-model/\nLM_PATH=$PWD/language-model" > .env
