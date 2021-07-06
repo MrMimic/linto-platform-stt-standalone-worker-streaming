@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 import json
-import numpy
+# import numpy
 import asyncio
 import websockets
 from vosk import Model, KaldiRecognizer

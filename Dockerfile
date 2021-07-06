@@ -19,7 +19,8 @@ RUN git clone --depth 1 https://github.com/kaldi-asr/kaldi.git /opt/kaldi && \
     ./extras/install_mkl.sh && \
     make -j $(nproc) && \
     cd /opt/kaldi/src && \
-    ./configure --shared && \
+    # Build the image with CUDA
+    ./configure --shared --use-cuda --cudatk-dir=/usr/local/cuda/ --cuda-arch=sm_50 && \
     make depend -j $(nproc) && \
     make -j $(nproc) && \
     mkdir -p /opt/kaldi/src_ && \

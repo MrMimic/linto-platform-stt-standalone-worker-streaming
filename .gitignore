@@ -1,1 +1,6 @@
 .env
+.venv
+*.zip
+models/accoustic/*
+models/language/*
+.vscode

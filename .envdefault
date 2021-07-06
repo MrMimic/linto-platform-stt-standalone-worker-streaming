@@ -1,2 +1,0 @@
-AM_PATH=/path/to/acoustic/models/dir
-LM_PATH=/path/to/language/models/dir
