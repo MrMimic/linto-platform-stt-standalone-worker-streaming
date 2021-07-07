@@ -18,3 +18,6 @@ cd ../
 
 # Create env file
 printf "AM_PATH=$PWD/models/acoustic-model/\nLM_PATH=$PWD/language-model" > .env
+
+# Launch the docker image compilation
+docker-compose up -d --build

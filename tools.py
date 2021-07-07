@@ -33,7 +33,7 @@ class WorkerStreaming:
         self.LM_PATH = '/opt/models/LM'
         self.TEMP_FILE_PATH = '/opt/tmp'
         self.CONFIG_FILES_PATH = '/opt/config'
-        self.SERVICE_PORT = 80
+        self.SERVICE_PORT = 2700
         self.NBR_THREADS = 100
         self.METADATA = True
         self.ONLINE = True
