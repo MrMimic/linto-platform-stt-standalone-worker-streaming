@@ -4,12 +4,15 @@ services:
 
   stt-worker-streaming:
     container_name: stt-standalone-worker-streaming
-    build: .
+    build:
+      context: .
+      args: 
+        PORT: ${PORT}
+        GPU_ARCH: ${GPU_ARCH}
     image: innolab/linto-stt-streaming-cuda:0.0.1
     volumes:
-      - ${AM_PATH}:/opt/models/AM
-      - ${LM_PATH}:/opt/models/LM
+      - ${MODEL}:/opt/model/
     ports:
-      - target: 2700
-        published: 2700
+      - target: ${PORT}
+        published: ${PORT}
     env_file: .env

@@ -1,6 +1,7 @@
-.env
 .venv
 *.zip
-models/acoustic-model/*
-models/language-model/*
+models/*
 .vscode
+__pycache__
+language-model
+configs

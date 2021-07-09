@@ -1,24 +1,37 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-import json
+import argparse
 # import numpy
 import asyncio
+import json
+
 import websockets
-from vosk import Model, KaldiRecognizer
+from vosk import KaldiRecognizer, Model
+
 from tools import WorkerStreaming
 
+# Get arguments
+parser = argparse.ArgumentParser(description="Websocket-based STT")
+parser.add_argument("-m", "--model", help="Path to the pretrained models", required=True)
+parser.add_argument("-p", "--port", help="The port for the servbice to be used", required=True)
+arguments = vars(parser.parse_args())
+
 # create WorkerStreaming object
-worker = WorkerStreaming()
+worker = WorkerStreaming(am_path=arguments["model"],
+                         lm_path=arguments["model"],
+                         config_files=arguments["model"],
+                         port=arguments["port"])
 
 # Load ASR models (acoustic model and decoding graph)
-worker.log.info('Load acoustic model and decoding graph')
-model = Model(worker.AM_PATH, worker.LM_PATH, worker.CONFIG_FILES_PATH+"/online.conf")
+worker.log.info("Load acoustic model and decoding graph")
+model = Model(arguments["model"])
 spkModel = None
 
-# decode chunk audio
+
+# Decode chunk audio
 def process_chunk(rec, message):
-    if message == '{"eof" : 1}':
+    if message == "{'eof' : 1}":
         return rec.FinalResult(), True
     elif rec.AcceptWaveform(message):
         return rec.Result(), False
@@ -29,21 +42,21 @@ def process_chunk(rec, message):
 # Recognizer
 async def recognize(websocket, path):
     rec = None
-    audio = b''
-    sample_rate = model.GetSampleFrequecy() # get default sample frequency
+    audio = b""
+    sample_rate = model.GetSampleFrequecy()
     metadata = worker.METADATA
 
     while True:
         try:
             data = await websocket.recv()
-            
+
             # Load configuration if provided
-            if isinstance(data, str) and 'config' in data:
-                jobj = json.loads(data)['config']
-                if 'sample_rate' in jobj:
-                    sample_rate = float(jobj['sample_rate'])
-                if 'metadata' in jobj:
-                    metadata = bool(jobj['metadata'])
+            if isinstance(data, str) and "config" in data:
+                jobj = json.loads(data)["config"]
+                if "sample_rate" in jobj:
+                    sample_rate = float(jobj["sample_rate"])
+                if "metadata" in jobj:
+                    metadata = bool(jobj["metadata"])
                 continue
 
             # Create the recognizer, word list is temporary disabled since not every model supports it
@@ -65,8 +78,9 @@ async def recognize(websocket, path):
         except Exception as e:
             break
 
-if __name__ == '__main__':
-    worker.log.info("Server is listening on port "+str(worker.SERVICE_PORT))
+
+if __name__ == "__main__":
+    worker.log.info("Server is listening on port " + str(worker.SERVICE_PORT))
     start_server = websockets.serve(recognize, "0.0.0.0", worker.SERVICE_PORT)
 
     asyncio.get_event_loop().run_until_complete(start_server)

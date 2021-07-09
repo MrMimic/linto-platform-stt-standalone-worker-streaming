@@ -1,16 +1,19 @@
 # linto-platform-stt-standalone-worker-streaming
 
-### Innolab build
+### InnoLab changes
 
-Preparet he environment (download models, etc)
+This forks use Linto, vosk and Kaldi to provide a Dockerised STT service compile with Cuda.
 
-    bash prepare.sh
+### Build
 
-Build submodules:
+Download a model: https://alphacephei.com/vosk/models
 
-    git submodule update --init
+Check for your GPU architecture tag: https://arnon.dk/matching-sm-architectures-arch-and-gencode-for-various-nvidia-cards/
 
-Then, the docker image build has been modified to use Cuda flag with Tesla M60 GPU.
+Provide the path to the unzipped model folder and your GPU architecture tag in .env file.
 
-    docker build -t innolab/linto-stt-streaming-cuda:0.0.1 .
+Run docker compose:
+
+    docker-compose up
+
 

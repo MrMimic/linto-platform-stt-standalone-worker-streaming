@@ -23,17 +23,17 @@ import numpy as np
 
 
 class WorkerStreaming:
-    def __init__(self):
+    def __init__(self, am_path: str, lm_path: str, config_files: str, tmp_files: str = "/tmp", port: int = 2700):
         # Set logger config
         self.log = logging.getLogger("__stt-standelone-worker-streaming__")
         logging.basicConfig(level=logging.INFO)
 
         # Main parameters
-        self.AM_PATH = '/opt/models/AM'
-        self.LM_PATH = '/opt/models/LM'
-        self.TEMP_FILE_PATH = '/opt/tmp'
-        self.CONFIG_FILES_PATH = '/opt/config'
-        self.SERVICE_PORT = 2700
+        self.AM_PATH = am_path
+        self.LM_PATH = lm_path
+        self.TEMP_FILE_PATH = tmp_files
+        self.CONFIG_FILES_PATH = config_files
+        self.SERVICE_PORT = port
         self.NBR_THREADS = 100
         self.METADATA = True
         self.ONLINE = True
@@ -188,7 +188,7 @@ class SpeakerDiarization:
         self.log = logging.getLogger(
             '__stt-standelone-worker__.SPKDiarization')
 
-       # MFCC FEATURES PARAMETERS
+        # MFCC FEATURES PARAMETERS
         self.frame_length_s = 0.025
         self.frame_shift_s = 0.01
         self.num_bins = 30
