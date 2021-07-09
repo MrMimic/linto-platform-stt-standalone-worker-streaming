@@ -2,7 +2,7 @@
 
 ### InnoLab changes
 
-This forks use Linto, vosk and Kaldi to provide a Dockerised STT service compile with Cuda.
+This forks use Linto, vosk and Kaldi to provide a Dockerised STT service compiled with Cuda.
 
 ### Build
 
